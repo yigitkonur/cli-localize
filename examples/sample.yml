@@ -1,0 +1,23 @@
+# Sample YAML localization file for loc-agent
+# Compatible with Rails i18n, Symfony, and other YAML-based i18n systems
+
+en:
+  common:
+    welcome: "Welcome to our application"
+    goodbye: "Goodbye, see you soon!"
+    loading: "Loading..."
+
+  buttons:
+    submit: "Submit"
+    cancel: "Cancel"
+    save: "Save changes"
+
+  messages:
+    greeting: "Hello, %{name}!"
+    items_count: "You have %{count} items in your cart"
+    confirmation: "Are you sure you want to delete \"%{item}\"?"
+
+  errors:
+    required: "This field is required"
+    invalid_email: "Please enter a valid email address"
+    network: "Network error. Please try again."

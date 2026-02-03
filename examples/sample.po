@@ -1,0 +1,51 @@
+# Sample PO file for loc-agent
+# Copyright (C) 2024
+# This file is distributed under the MIT license.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sample 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/components/Header.js:10
+msgid "Welcome to our application"
+msgstr "Welcome to our application"
+
+#: src/components/Header.js:15
+msgid "Goodbye, see you soon!"
+msgstr "Goodbye, see you soon!"
+
+#: src/components/Button.js:5
+msgid "Submit"
+msgstr "Submit"
+
+#: src/components/Button.js:10
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/components/Messages.js:20
+#, python-format
+msgid "Hello, %(name)s!"
+msgstr "Hello, %(name)s!"
+
+#: src/components/Cart.js:15
+#, python-format
+msgid "You have %(count)d items"
+msgstr "You have %(count)d items"
+
+#: src/components/Errors.js:5
+msgid "This field is required"
+msgstr "This field is required"
+
+#: src/components/Errors.js:10
+msgid "Please enter a valid email address"
+msgstr "Please enter a valid email address"

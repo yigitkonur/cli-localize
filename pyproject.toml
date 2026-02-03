@@ -1,0 +1,91 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "xlat"
+version = "2.0.0"
+description = "LLM-optimized CLI for translating localization files (SRT, JSON, PO, Android XML, iOS strings, YAML, ARB)"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Yigit Konur" }
+]
+keywords = [
+    "localization",
+    "i18n",
+    "l10n",
+    "translation",
+    "llm",
+    "ai",
+    "agent",
+    "cli",
+    "batch-processing",
+    "srt",
+    "subtitles",
+    "json",
+    "gettext",
+    "po",
+    "android",
+    "ios",
+    "yaml",
+    "arb",
+    "flutter"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: Linguistic",
+    "Topic :: Software Development :: Internationalization",
+    "Topic :: Software Development :: Localization",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "tiktoken>=0.5.0",  # Token counting for batch sizing
+    "pyyaml>=6.0",      # YAML format support
+]
+
+[project.optional-dependencies]
+api = [
+    "httpx>=0.27.0",
+]
+cache = [
+    "redis>=5.0.0",
+]
+all = [
+    "httpx>=0.27.0",
+    "redis>=5.0.0",
+]
+dev = [
+    "pyinstaller>=6.0.0",
+    "pytest>=7.0.0",
+]
+
+[project.scripts]
+xlat = "xlat.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yigitkonur/xlat"
+Repository = "https://github.com/yigitkonur/xlat"
+Issues = "https://github.com/yigitkonur/xlat/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["xlat"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]

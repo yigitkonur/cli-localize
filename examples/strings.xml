@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sample Android strings.xml for loc-agent -->
+<resources>
+    <string name="app_name">Sample App</string>
+    <string name="welcome_message">Welcome to our application</string>
+    <string name="goodbye_message">Goodbye, see you soon!</string>
+
+    <!-- Buttons -->
+    <string name="btn_submit">Submit</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_save">Save changes</string>
+
+    <!-- Messages with placeholders -->
+    <string name="greeting">Hello, %1$s!</string>
+    <string name="items_count">You have %1$d items in your cart</string>
+    <string name="confirmation">Are you sure you want to delete \"%1$s\"?</string>
+
+    <!-- Errors -->
+    <string name="error_required">This field is required</string>
+    <string name="error_invalid_email">Please enter a valid email address</string>
+    <string name="error_network">Network error. Please try again.</string>
+</resources>

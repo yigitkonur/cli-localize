@@ -1,0 +1,47 @@
+1
+00:00:00,160 --> 00:00:05,120
+Um, my name is Michael.
+Uh, I work here at Y Combinator.
+
+2
+00:00:05,200 --> 00:00:10,779
+Before that I did two YC startups,
+one in 2007 and one in 2012.
+
+3
+00:00:10,849 --> 00:00:17,280
+Today I'm going to be talking to you
+about MVP, minimum viable product.
+
+4
+00:00:17,359 --> 00:00:21,296
+We always yell at founders
+to not use jargon, yet we have
+
+5
+00:00:21,296 --> 00:00:24,879
+all this stupid startup jargon.
+And MVP is one of them.
+
+6
+00:00:24,960 --> 00:00:27,179
+When you think about an MVP,
+you should think about something
+
+7
+00:00:27,179 --> 00:00:28,980
+ridiculously simple.
+
+8
+00:00:29,019 --> 00:00:33,675
+This is the first thing you can give
+to the very first set of users
+
+9
+00:00:33,675 --> 00:00:39,429
+you want to target in order to see
+if you can deliver any value at all to them.
+
+10
+00:00:39,460 --> 00:00:42,439
+That's it. Extremely simple.

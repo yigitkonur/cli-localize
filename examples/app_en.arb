@@ -1,0 +1,56 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2024-01-01T00:00:00.000Z",
+
+  "welcomeMessage": "Welcome to our application",
+  "@welcomeMessage": {
+    "description": "Welcome message shown on home screen"
+  },
+
+  "goodbyeMessage": "Goodbye, see you soon!",
+  "@goodbyeMessage": {
+    "description": "Farewell message"
+  },
+
+  "btnSubmit": "Submit",
+  "@btnSubmit": {
+    "description": "Submit button label"
+  },
+
+  "btnCancel": "Cancel",
+  "@btnCancel": {
+    "description": "Cancel button label"
+  },
+
+  "greeting": "Hello, {name}!",
+  "@greeting": {
+    "description": "Personalized greeting",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+
+  "itemsCount": "You have {count} items in your cart",
+  "@itemsCount": {
+    "description": "Shopping cart item count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
+  "errorRequired": "This field is required",
+  "@errorRequired": {
+    "description": "Validation error for required fields"
+  },
+
+  "errorInvalidEmail": "Please enter a valid email address",
+  "@errorInvalidEmail": {
+    "description": "Validation error for email format"
+  }
+}

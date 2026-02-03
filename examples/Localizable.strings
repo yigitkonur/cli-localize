@@ -1,0 +1,21 @@
+/* Sample iOS .strings file for loc-agent */
+
+/* Common */
+"welcome_message" = "Welcome to our application";
+"goodbye_message" = "Goodbye, see you soon!";
+"loading" = "Loading...";
+
+/* Buttons */
+"btn_submit" = "Submit";
+"btn_cancel" = "Cancel";
+"btn_save" = "Save changes";
+
+/* Messages with placeholders */
+"greeting" = "Hello, %@!";
+"items_count" = "You have %ld items in your cart";
+"confirmation" = "Are you sure you want to delete \"%@\"?";
+
+/* Errors */
+"error_required" = "This field is required";
+"error_invalid_email" = "Please enter a valid email address";
+"error_network" = "Network error. Please try again.";

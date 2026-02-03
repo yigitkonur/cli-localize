@@ -1,9 +1,3 @@
-# Environment
-.env
-.venv/
-venv/
-env/
-
 # Python
 __pycache__/
 *.py[cod]
@@ -11,26 +5,73 @@ __pycache__/
 *.so
 .Python
 build/
+develop-eggs/
 dist/
+downloads/
 eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 *.egg-info/
+.installed.cfg
 *.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+test-venv/
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Runtime
-*.log
-state.txt
+*.sublime-*
 
 # OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+
+# Environment
+.env
+
+# Logs
+*.log
+logs/
+
+# loc-agent session files (generated during translation)
+.loc-*.json
+.srt-*.json
+
+# IBF patch files (generated during translation)
+*.ibf
+
+# PyInstaller build artifacts (but keep xlat.spec)
+!xlat.spec
+
+# User translation work directories
+files-to-translate/
+
+# Keep examples - explicitly allow all example formats
+!examples/
+!examples/*.srt
+!examples/*.json
+!examples/*.po
+!examples/*.xml
+!examples/*.strings
+!examples/*.yml
+!examples/*.arb

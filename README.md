@@ -1,276 +1,276 @@
-<h1 align="center">🎬 context-aware-srt-translation 🎬</h1>
-<h3 align="center">Stop translating subtitles line by line. Start shipping natural translations.</h3>
+<h1 align="center">xlat</h1>
+<h3 align="center">Token-efficient translation CLI built for AI agents</h3>
 
 <p align="center">
-  <strong>
-    <em>The smarter subtitle translator. It reads your SRT, groups sequential lines for context, and uses GPT to produce translations that actually sound human.</em>
-  </strong>
-</p>
-
-<p align="center">
-  <a href="#"><img alt="python" src="https://img.shields.io/badge/python-3.10+-4D87E6.svg?style=flat-square"></a>
-  <a href="#"><img alt="fastapi" src="https://img.shields.io/badge/FastAPI-0.109+-009688.svg?style=flat-square"></a>
-  &nbsp;&nbsp;•&nbsp;&nbsp;
-  <a href="#"><img alt="license" src="https://img.shields.io/badge/License-MIT-F9A825.svg?style=flat-square"></a>
+  <a href="#installation"><img alt="uv" src="https://img.shields.io/badge/uv-package_manager-4D87E6.svg?style=flat-square"></a>
+  <a href="#supported-formats"><img alt="formats" src="https://img.shields.io/badge/formats-7_supported-009688.svg?style=flat-square"></a>
+  <a href="LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-F9A825.svg?style=flat-square"></a>
   <a href="#"><img alt="platform" src="https://img.shields.io/badge/platform-macOS_|_Linux_|_Windows-2ED573.svg?style=flat-square"></a>
 </p>
 
 <p align="center">
-  <img alt="context window" src="https://img.shields.io/badge/🧠_context_window-groups_3_lines_at_once-2ED573.svg?style=for-the-badge">
-  <img alt="auto fallback" src="https://img.shields.io/badge/🔄_auto_fallback-OpenAI_→_DeepL-2ED573.svg?style=for-the-badge">
+  <strong>Reduce translation API costs by ~24% using IBF (Indexed Block Format)</strong><br/>
+  <sub>A compact intermediate format designed specifically for LLM consumption</sub>
 </p>
 
-<div align="center">
+---
 
-### 🧭 Quick Navigation
+## The Problem
 
-[**⚡ Get Started**](#-get-started-in-60-seconds) •
-[**✨ How It Works**](#-how-context-windows-work) •
-[**🎮 API Usage**](#-api-usage) •
-[**⚙️ Configuration**](#️-configuration) •
-[**🆚 Why This Slaps**](#-why-this-slaps-other-methods)
+Translating localization files with AI agents is expensive and error-prone:
 
-</div>
+| Challenge | What Happens |
+|-----------|--------------|
+| **Token waste** | JSON/XML syntax burns through your context window |
+| **Context limits** | Large files exceed LLM limits, requiring manual splitting |
+| **Broken placeholders** | Agents mangle `{{name}}` into `{name}` or worse |
+| **Lost progress** | One failed batch means starting over |
+| **Format fragmentation** | Different tools for JSON, PO, Android, iOS... |
+
+## The Solution
+
+xlat introduces **IBF (Indexed Block Format)** — a wire format that strips away syntax and gives agents exactly what they need:
+
+```
+#TRANSLATE:v1:en>fr:batch=1/3:entries=15:ctx=0
+@translate
+[welcome] Welcome to our app
+[goodbye] Goodbye, see you soon
+[items_count] You have %d items in your cart
+---
+```
+
+The agent translates, returns IBF, and xlat reconstructs your original format with validated placeholders.
 
 ---
 
-**context-aware-srt-translation** is the translator your subtitles deserve. Stop feeding GPT one line at a time and getting robotic, disconnected results. This service groups sequential subtitle lines together, giving the AI the context it needs to understand the conversation and produce translations that actually flow naturally.
+## Supported Formats
 
-<div align="center">
-<table>
-<tr>
-<td align="center">
-<h3>🧠</h3>
-<b>Context Windows</b><br/>
-<sub>3 lines translated together</sub>
-</td>
-<td align="center">
-<h3>⚡</h3>
-<b>Concurrent Processing</b><br/>
-<sub>Parallel chunk translation</sub>
-</td>
-<td align="center">
-<h3>🔄</h3>
-<b>Auto Fallback</b><br/>
-<sub>OpenAI → DeepL seamlessly</sub>
-</td>
-</tr>
-</table>
-</div>
-
-How it works:
-- **You:** POST your SRT file to the API
-- **Service:** Groups lines into context windows, translates concurrently
-- **Result:** Natural translations that respect conversational flow
-- **Bonus:** Full statistics on what happened
+| Format | Extensions | Placeholder Syntax |
+|--------|------------|-------------------|
+| **JSON** | `.json` | `{{name}}` |
+| **PO/POT** | `.po`, `.pot` | `%(name)s`, `%s`, `%d` |
+| **Android XML** | `.xml` | `%1$s`, `%2$d` |
+| **iOS Strings** | `.strings` | `%@`, `%ld` |
+| **YAML** | `.yml`, `.yaml` | `%{name}` |
+| **ARB** (Flutter) | `.arb` | `{name}`, `{n, plural, ...}` |
+| **SRT** (Subtitles) | `.srt` | N/A |
 
 ---
 
-## 💥 Why This Slaps Other Methods
-
-Line-by-line translation is a vibe-killer. Context windows make other methods look ancient.
-
-<table align="center">
-<tr>
-<td align="center"><b>❌ Line-by-Line (Pain)</b></td>
-<td align="center"><b>✅ Context Windows (Glory)</b></td>
-</tr>
-<tr>
-<td>
-<pre>
-"I think we should..."  →  "Sanırım biz..."
-"...go there tomorrow"  →  "...yarın oraya git"
-</pre>
-<sub>Disconnected. Robotic. Wrong verb forms.</sub>
-</td>
-<td>
-<pre>
-["I think we should...",
- "...go there tomorrow"]  →  
-["Bence yarın oraya...",
- "...gitmeliyiz"]
-</pre>
-<sub>Connected. Natural. Correct grammar.</sub>
-</td>
-</tr>
-</table>
-
-The difference is **context**. When GPT sees the full thought, it understands the sentence structure, maintains speaker tone, and produces translations humans would actually write.
-
----
-
-## 🚀 Get Started in 60 Seconds
-
-### 1. Clone & Install
+## Installation
 
 ```bash
-git clone https://github.com/yigitkonur/context-aware-srt-translation-gpt.git
-cd context-aware-srt-translation-gpt
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+git clone https://github.com/yigitkonur/subtitle-llm-translator.git
+cd subtitle-llm-translator
+uv sync
+uv tool install -e .
 ```
 
-### 2. Configure
-
+Verify installation:
 ```bash
-cp .env.example .env
-# Add your OpenAI API key (required)
-# Add DeepL API key (optional fallback)
+xlat --help
 ```
-
-### 3. Run
-
-```bash
-python run.py
-```
-
-The API is now live at `http://localhost:8000` 🎉
 
 ---
 
-## 🧠 How Context Windows Work
+## Quick Start
 
-Instead of translating each subtitle line individually (which loses context), this service groups sequential lines:
+### Manual Usage
 
+```bash
+# 1. Initialize a translation session
+xlat init --input messages.json --lang 'en>fr'
+# Returns: {"session_file": ".loc-abc123.json", "total_batches": 5}
+
+# 2. Get a batch to translate
+xlat batch --session .loc-abc123.json --batch 1
+
+# 3. Translate the IBF output, save to file, submit
+xlat submit --session .loc-abc123.json --batch 1 --patch batch_1.ibf
+
+# 4. Repeat for all batches, then finalize
+xlat finalize --session .loc-abc123.json
+# Creates: messages_fr.json
 ```
-┌─────────────────────────────────────────────────┐
-│  Traditional: Line 1 → Translate → Output 1    │
-│               Line 2 → Translate → Output 2    │
-│               Line 3 → Translate → Output 3    │
-│               ❌ No context between lines       │
-└─────────────────────────────────────────────────┘
 
-┌─────────────────────────────────────────────────┐
-│  Context Window:                                │
-│  [Line 1, Line 2, Line 3] → Translate Together  │
-│               ↓                                 │
-│  [Output 1, Output 2, Output 3]                 │
-│               ✅ AI sees the full picture       │
-└─────────────────────────────────────────────────┘
-```
+### With AI Agents
 
-This allows GPT to:
-- **Maintain speaker continuity** — Same character, same voice
-- **Preserve conversation flow** — Questions match answers
-- **Handle split sentences** — "I think..." + "...we should go" = coherent thought
-- **Respect cultural context** — Idioms translated appropriately
+xlat is designed for autonomous translation by AI agents. See the [Agent Prompt](#agent-integration) section below for copy-paste instructions.
 
 ---
 
-## 🎮 API Usage
+## Commands
 
-### Translate Subtitles
+| Command | Purpose |
+|---------|---------|
+| `xlat init` | Create session, analyze file, plan batches |
+| `xlat batch` | Get IBF content for a specific batch |
+| `xlat submit` | Submit translated IBF, validate placeholders |
+| `xlat status` | Check session progress |
+| `xlat finalize` | Generate output file from all translations |
+
+### Command Options
 
 ```bash
-curl -X POST "http://localhost:8000/subtitle-translate" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "srt_content": "1\n00:00:01,000 --> 00:00:04,000\nHello, how are you?\n\n2\n00:00:05,000 --> 00:00:08,000\nI am doing great, thanks!",
-    "source_language": "en",
-    "target_language": "tr"
-  }'
+xlat init --input <file> --lang '<src>><tgt>' [--tokens <n>] [--context <n>]
+xlat batch --session <file> --batch <n>
+xlat submit --session <file> --batch <n> --patch <file.ibf>
+xlat status --session <file>
+xlat finalize --session <file> [--output <file>]
 ```
 
-### Response
+---
 
+## IBF Format Specification
+
+### Input (from `xlat batch`)
+
+```
+#TRANSLATE:v1:en>fr:batch=1/5:entries=10:ctx=2
+@context_before
+[prev_entry] Previously translated text for context
+@translate
+[welcome] Welcome to our app
+[goodbye] Goodbye, see you soon
+@context_after
+[next_entry] Following text for context
+---
+```
+
+### Output (agent produces)
+
+```
+#TRANSLATED:v1:batch=1/5:count=2:status=ok
+[welcome] Bienvenue dans notre application
+[goodbye] Au revoir, à bientôt
+---
+```
+
+### Rules
+
+- **Header line**: Must start with `#TRANSLATED:v1:`
+- **Entry format**: `[id] translated text` (space after bracket required)
+- **Terminator**: `---` on final line (required)
+- **Only translate** `@translate` section — context sections are read-only
+- **Preserve placeholders** exactly as they appear
+- **Preserve entry IDs** exactly as they appear
+
+---
+
+## Agent Integration
+
+Copy the prompt from [`agent-prompt.md`](./agent-prompt.md) to instruct AI agents on using xlat.
+
+### Critical Rules for Agents
+
+1. **Always quote `--lang`** — The `>` is a shell redirect:
+   ```bash
+   # Correct
+   xlat init --input file.json --lang 'en>fr'
+
+   # Wrong — creates empty file "fr"
+   xlat init --input file.json --lang en>fr
+   ```
+
+2. **Never translate placeholders**:
+   - `{{variable}}` → `{{variable}}`
+   - `%s`, `%d`, `%@` → unchanged
+   - `{name}`, `%{name}` → unchanged
+
+3. **Only translate `@translate` section** — `@context_before` and `@context_after` are read-only context.
+
+### Minimal Agent Prompt
+
+For context-limited agents:
+
+```
+Translate files using xlat CLI. ALWAYS quote --lang: --lang 'en>fr'
+
+Commands:
+1. xlat init --input FILE --lang 'SRC>TGT' → Get session_file, total_batches
+2. xlat batch --session FILE --batch N → Get IBF to translate
+3. xlat submit --session FILE --batch N --patch FILE.ibf → Submit translation
+4. xlat finalize --session FILE → Generate output
+
+IBF Output Format:
+#TRANSLATED:v1:batch=N/M:count=X:status=ok
+[id1] Translated text
+[id2] Another translation
+---
+
+Rules: Preserve placeholders ({{x}}, %s, %d, %@). Keep [ids] exact. End with ---
+```
+
+---
+
+## Error Handling
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `ENTRY_COUNT_MISMATCH` | Wrong number of entries | Translate ALL entries from @translate |
+| `MISSING_ENTRIES` | IDs missing from output | Add missing `[id]` lines |
+| `EXTRA_ENTRIES` | IDs in output not in input | Remove extra entries |
+| `PLACEHOLDER_WARNING` | Placeholders modified | Review and fix placeholders |
+| `INVALID_HEADER` | Malformed `#TRANSLATED` line | Check header format |
+| `MISSING_TERMINATOR` | No `---` at end | Add `---` on final line |
+
+---
+
+## Session Recovery
+
+Sessions are stored as `.loc-*.json` files in the input file directory. To resume:
+
+```bash
+# Find session file
+ls -la .loc-*.json
+
+# Check progress
+xlat status --session .loc-abc123.json
+
+# Continue from next pending batch
+xlat batch --session .loc-abc123.json --batch 3
+```
+
+---
+
+## Why ~24% Token Savings?
+
+Traditional approach sends full JSON:
 ```json
 {
-  "translated_srt_content": "1\n00:00:01,000 --> 00:00:04,000\nMerhaba, nasılsın?\n\n2\n00:00:05,000 --> 00:00:08,000\nÇok iyiyim, teşekkürler!",
-  "status": "success",
-  "error_message": null,
-  "stats": {
-    "total_sentences": 2,
-    "translated_sentences": 2,
-    "failed_sentences": 0,
-    "success_rate": 100.0,
-    "openai_calls": 1,
-    "deepl_calls": 0,
-    "elapsed_seconds": 1.23
-  }
+  "welcome": "Welcome to our app",
+  "goodbye": "Goodbye, see you soon",
+  "items_count": "You have %d items in your cart"
 }
 ```
 
-### Health Check
+IBF strips syntax overhead:
+```
+[welcome] Welcome to our app
+[goodbye] Goodbye, see you soon
+[items_count] You have %d items in your cart
+```
+
+Fewer tokens = lower API costs = more translations per dollar.
+
+---
+
+## Development
 
 ```bash
-curl http://localhost:8000/health
-# {"status": "healthy", "version": "2.0.0"}
-```
-
----
-
-## ⚙️ Configuration
-
-All settings via environment variables:
-
-| Variable | Default | Description |
-|:---------|:--------|:------------|
-| `OPENAI_API_KEY` | — | **Required.** Your OpenAI API key |
-| `DEEPL_API_KEY` | — | Optional fallback service |
-| `OPENAI_MODEL` | `gpt-4o-mini` | Model for translations |
-| `OPENAI_TEMPERATURE` | `0.3` | Lower = more consistent |
-| `CONTEXT_WINDOW_SIZE` | `3` | Lines per translation chunk |
-| `MAX_CONCURRENT_REQUESTS` | `10` | Parallel API calls |
-| `LOG_LEVEL` | `INFO` | Logging verbosity |
-
----
-
-## 📁 Project Structure
-
-```
-src/
-├── config.py              # Environment configuration
-├── models.py              # Pydantic request/response models
-├── srt_parser.py          # SRT parsing & reconstruction
-├── translator.py          # Main orchestration logic
-├── main.py                # FastAPI application
-└── services/
-    ├── base.py            # Service interface
-    ├── openai_service.py  # OpenAI implementation
-    └── deepl_service.py   # DeepL fallback
-```
-
----
-
-## 🔥 API Documentation
-
-Interactive docs available when running:
-- **Swagger UI:** `http://localhost:8000/docs`
-- **ReDoc:** `http://localhost:8000/redoc`
-
----
-
-## 🛠️ Development
-
-```bash
-# Setup
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+# Install dependencies
+uv sync
 
 # Run tests
-pytest tests/ -v
+uv run pytest tests/ -v
 
-# Run with hot reload
-python run.py
+# Build standalone binary
+uv run python build.py
 ```
 
 ---
 
-## 🔥 Common Issues
+## License
 
-| Problem | Solution |
-|:--------|:---------|
-| **OpenAI rate limit** | Reduce `MAX_CONCURRENT_REQUESTS` |
-| **DeepL not working** | Check `DEEPL_API_KEY` is set correctly |
-| **Translations cut off** | Increase `OPENAI_MAX_TOKENS` |
-| **Wrong language codes** | Use ISO 639-1 codes: `en`, `tr`, `de`, `fr`, etc. |
-
----
-
-<div align="center">
-
-**Built with 🔥 because line-by-line subtitle translation is a crime against cinema.**
-
-MIT © [Yiğit Konur](https://github.com/yigitkonur)
-
-</div>
+MIT
