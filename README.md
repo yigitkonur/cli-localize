@@ -1,16 +1,16 @@
 translation CLI built for AI agents. breaks localization files into token-sized batches, hands them to an LLM in a compact format, validates the output, and reconstructs the translated file. stateful and resumable — pick up where you left off.
 
 ```bash
-xlat init -i messages.json -l "en>tr"
-xlat batch -s .loc-*.json -b 1
-xlat submit -s .loc-*.json -b 1 -p batch1.ibf
-xlat finalize -s .loc-*.json
+cli-localize init -i messages.json -l "en>tr"
+cli-localize batch -s .loc-*.json -b 1
+cli-localize submit -s .loc-*.json -b 1 -p batch1.ibf
+cli-localize finalize -s .loc-*.json
 ```
 
 or in one shot:
 
 ```bash
-xlat oneshot -i messages.json -l "en>tr"
+cli-localize oneshot -i messages.json -l "en>tr"
 ```
 
 [![python](https://img.shields.io/badge/python-3.10+-93450a.svg?style=flat-square)](https://www.python.org/)
@@ -60,7 +60,7 @@ for a standalone binary (no Python needed):
 ```bash
 uv sync --extra dev
 uv run python build.py --clean
-# produces: dist/xlat-{platform}
+# produces: dist/cli-localize-{platform}
 ```
 
 requires Python 3.10+. only two runtime dependencies: `tiktoken` and `pyyaml`.
@@ -71,22 +71,22 @@ requires Python 3.10+. only two runtime dependencies: `tiktoken` and `pyyaml`.
 
 ```bash
 # 1. parse file, create session
-xlat init -i strings.json -l "en>de" -t 5000
+cli-localize init -i strings.json -l "en>de" -t 5000
 
 # 2. get batch in IBF format (pipe to your LLM)
-xlat batch -s .loc-a1b2-c3d4e5f6.json -b 1
+cli-localize batch -s .loc-a1b2-c3d4e5f6.json -b 1
 
 # 3. submit the LLM's translation
-xlat submit -s .loc-a1b2-c3d4e5f6.json -b 1 -p translated.ibf
+cli-localize submit -s .loc-a1b2-c3d4e5f6.json -b 1 -p translated.ibf
 
 # 4. repeat for remaining batches, then finalize
-xlat finalize -s .loc-a1b2-c3d4e5f6.json
+cli-localize finalize -s .loc-a1b2-c3d4e5f6.json
 ```
 
 ### oneshot (for simple agent loops)
 
 ```bash
-xlat oneshot -i strings.json -l "en>de"
+cli-localize oneshot -i strings.json -l "en>de"
 ```
 
 auto-creates or resumes a session and returns the next pending batch. designed for single-turn agent workflows.
@@ -94,18 +94,18 @@ auto-creates or resumes a session and returns the next pending batch. designed f
 ### check progress
 
 ```bash
-xlat status -s .loc-a1b2-c3d4e5f6.json
+cli-localize status -s .loc-a1b2-c3d4e5f6.json
 ```
 
 ### list supported formats
 
 ```bash
-xlat formats
+cli-localize formats
 ```
 
 ## IBF format
 
-the wire format between xlat and the LLM. minimal, line-oriented, token-efficient.
+the wire format between cli-localize and the LLM. minimal, line-oriented, token-efficient.
 
 **request (sent to LLM):**
 

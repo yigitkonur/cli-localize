@@ -1,6 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 """
-PyInstaller spec file for xlat CLI binary.
+PyInstaller spec file for cli-localize CLI binary.
 Builds a single-file executable for macOS and Linux.
 """
 
@@ -13,7 +13,7 @@ block_cipher = None
 project_root = Path(SPECPATH)
 
 a = Analysis(
-    [str(project_root / 'xlat_main.py')],
+    [str(project_root / 'cli_localize_main.py')],
     pathex=[str(project_root)],
     binaries=[],
     datas=[],
@@ -53,7 +53,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='xlat',
+    name='cli-localize',
     debug=False,
     bootloader_ignore_signals=False,
     strip=True,

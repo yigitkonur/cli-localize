@@ -60,8 +60,8 @@ logs/
 # IBF patch files (generated during translation)
 *.ibf
 
-# PyInstaller build artifacts (but keep xlat.spec)
-!xlat.spec
+# PyInstaller build artifacts (but keep cli-localize.spec)
+!cli-localize.spec
 
 # User translation work directories
 files-to-translate/

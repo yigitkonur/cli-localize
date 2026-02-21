@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**xlat** is an LLM-optimized CLI for translating localization files using a custom token-efficient format called IBF (Indexed Block Format). It supports SRT, JSON, PO, Android XML, iOS .strings, YAML, and ARB formats.
+**cli-localize** is an LLM-optimized CLI for translating localization files using a custom token-efficient format called IBF (Indexed Block Format). It supports SRT, JSON, PO, Android XML, iOS .strings, YAML, and ARB formats.
 
 ## Commands
 
@@ -19,8 +19,8 @@ uv sync --extra all    # all optional deps
 uv sync --extra dev    # pytest, pyinstaller
 
 # Run CLI
-uv run xlat --help
-uv run xlat formats  # List supported formats
+uv run cli-localize --help
+uv run cli-localize formats  # List supported formats
 
 # Run tests
 uv run pytest                                    # All tests
@@ -42,7 +42,7 @@ uv run python build.py --clean
 
 ```
 xlat/
-├── cli.py              # Entry point (xlat command)
+├── cli.py              # Entry point (cli-localize command)
 ├── session.py          # TranslationSession: state management, validation
 ├── ibf_format.py       # IBF encoder/decoder, validation errors
 ├── batcher.py          # TokenBatcher: token-based batch splitting
@@ -109,23 +109,23 @@ Translated output format:
 
 ```bash
 # 1. Initialize session (IMPORTANT: Quote the language pair!)
-xlat init --input messages.json --lang 'en>tr' --target-tokens 5000
+cli-localize init --input messages.json --lang 'en>tr' --target-tokens 5000
 
 # 2. Get batch for translation
-xlat batch --session .loc-abc123.json --batch 1 > batch_1.ibf
+cli-localize batch --session .loc-abc123.json --batch 1 > batch_1.ibf
 
 # 3. LLM translates, output saved to file
 
 # 4. Submit translation
-xlat submit --session .loc-abc123.json --batch 1 --patch batch_1_tr.ibf
+cli-localize submit --session .loc-abc123.json --batch 1 --patch batch_1_tr.ibf
 
 # 5. Check progress
-xlat status --session .loc-abc123.json
+cli-localize status --session .loc-abc123.json
 
 # 6. Repeat 2-4 for remaining batches
 
 # 7. Generate final output
-xlat finalize --session .loc-abc123.json
+cli-localize finalize --session .loc-abc123.json
 ```
 
 > **⚠️ CRITICAL**: Always quote the `--lang` parameter: `--lang 'en>fr'`
@@ -169,17 +169,17 @@ Each example demonstrates placeholders specific to that format.
 
 ## Agent Usage Guide
 
-This section provides optimized guidance for AI agents using xlat.
+This section provides optimized guidance for AI agents using cli-localize.
 
 ### Critical: Shell Quoting
 
 **Always quote the `--lang` parameter**:
 ```bash
 # ✅ CORRECT
-xlat init --input file.json --lang 'en>fr'
+cli-localize init --input file.json --lang 'en>fr'
 
 # ❌ WRONG - Shell interprets > as redirect, causes silent failure
-xlat init --input file.json --lang en>fr
+cli-localize init --input file.json --lang en>fr
 ```
 
 ### Session File Location
@@ -235,20 +235,20 @@ When creating translated patches, use this exact format:
 
 ```python
 # 1. Initialize (capture JSON output)
-result = run("xlat init --input file.json --lang 'en>es'")
+result = run("cli-localize init --input file.json --lang 'en>es'")
 session_file = result["session_file"]
 
 # 2. Get batch
-batch_ibf = run(f"xlat batch --session {session_file} --batch 1")
+batch_ibf = run(f"cli-localize batch --session {session_file} --batch 1")
 
 # 3. Create translation (preserve IDs and placeholders)
 translated_ibf = translate_content(batch_ibf)
 
 # 4. Submit
-run(f"xlat submit --session {session_file} --batch 1 --patch translated.ibf")
+run(f"cli-localize submit --session {session_file} --batch 1 --patch translated.ibf")
 
 # 5. Finalize when all batches complete
-run(f"xlat finalize --session {session_file}")
+run(f"cli-localize finalize --session {session_file}")
 ```
 
 ### Common Errors and Fixes

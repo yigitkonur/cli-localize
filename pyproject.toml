@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "xlat"
+name = "cli-localize"
 version = "2.0.0"
 description = "LLM-optimized CLI for translating localization files (SRT, JSON, PO, Android XML, iOS strings, YAML, ARB)"
 readme = "README.md"
@@ -72,12 +72,12 @@ dev = [
 ]
 
 [project.scripts]
-xlat = "xlat.cli:main"
+cli-localize = "xlat.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/yigitkonur/xlat"
-Repository = "https://github.com/yigitkonur/xlat"
-Issues = "https://github.com/yigitkonur/xlat/issues"
+Homepage = "https://github.com/yigitkonur/cli-localize"
+Repository = "https://github.com/yigitkonur/cli-localize"
+Issues = "https://github.com/yigitkonur/cli-localize/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["xlat"]

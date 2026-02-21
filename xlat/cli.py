@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-xlat - LLM-Friendly Localization Translation CLI
+cli-localize - LLM-Friendly Localization Translation CLI
 
 Multi-format localization file translator optimized for AI agent workflows.
 
@@ -22,20 +22,20 @@ Commands:
     formats  - List supported formats
 
 Example Agent Workflow:
-    1. xlat init --input messages.json --lang 'en>tr'
+    1. cli-localize init --input messages.json --lang 'en>tr'
        → Returns: session state file path, batch count
 
-    2. xlat batch --session .loc-xxx.json --batch 1
+    2. cli-localize batch --session .loc-xxx.json --batch 1
        → Returns: IBF format text for translation
 
     3. [Agent translates and saves to batch_1.ibf]
 
-    4. xlat submit --session .loc-xxx.json --batch 1 --patch batch_1.ibf
+    4. cli-localize submit --session .loc-xxx.json --batch 1 --patch batch_1.ibf
        → Returns: validation result + next command
 
     5. Repeat 2-4 for all batches
 
-    6. xlat finalize --session .loc-xxx.json
+    6. cli-localize finalize --session .loc-xxx.json
        → Returns: output file path + stats
 """
 
@@ -65,7 +65,7 @@ def cmd_init(args) -> dict:
             "message": f"Source and target language are the same: '{src_lang}'. "
                       f"This usually happens when --lang is not quoted. "
                       f"Use: --lang '{src_lang}>XX' (with quotes) to prevent shell interpretation of '>'.",
-            "suggestion": f"Try: xlat init --input {args.input} --lang '{src_lang}>XX'",
+            "suggestion": f"Try: cli-localize init --input {args.input} --lang '{src_lang}>XX'",
         }
 
     session = TranslationSession(
@@ -94,7 +94,7 @@ def cmd_init(args) -> dict:
             "target_lang": tgt_lang,
         },
         "next_action": {
-            "command": f"xlat batch --session {session.state_file} --batch 1",
+            "command": f"cli-localize batch --session {session.state_file} --batch 1",
             "description": f"Get batch 1 of {session.state.total_batches} for translation",
         },
         "summary": f"Session created. {session.state.total_entries} entries split into {session.state.total_batches} batches. Run the next command to start.",
@@ -123,7 +123,7 @@ def cmd_batch(args) -> str:
         },
         "next_action": {
             "save_as": f"batch_{args.batch}.ibf",
-            "then_run": f"xlat submit --session {args.session} --batch {args.batch} --patch batch_{args.batch}.ibf",
+            "then_run": f"cli-localize submit --session {args.session} --batch {args.batch} --patch batch_{args.batch}.ibf",
         },
     }
 
@@ -139,7 +139,7 @@ def cmd_submit(args) -> dict:
             "error_type": "MISSING_PATCH",
             "error": "No patch file provided",
             "suggestion": "Use --patch to specify the .ibf file containing the translation",
-            "example": f"xlat submit --session {args.session} --batch {args.batch} --patch batch_{args.batch}.ibf",
+            "example": f"cli-localize submit --session {args.session} --batch {args.batch} --patch batch_{args.batch}.ibf",
         }
 
     patch_path = Path(args.patch)
@@ -242,7 +242,7 @@ def cmd_oneshot(args) -> str:
             "session_id": session.session_id,
             "state_file": str(session.state_file),
             "next_action": {
-                "command": f"xlat finalize --session {session.state_file}",
+                "command": f"cli-localize finalize --session {session.state_file}",
                 "description": "Generate final translated file",
             },
         })
@@ -264,7 +264,8 @@ def cmd_oneshot(args) -> str:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="xlat - LLM-Friendly Localization Translation CLI",
+        prog="cli-localize",
+        description="cli-localize - LLM-Friendly Localization Translation CLI",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Supported Formats:
@@ -278,25 +279,25 @@ Supported Formats:
 
 Examples:
   # Initialize session (auto-detect format, QUOTE the --lang!)
-  xlat init --input messages.json --lang 'en>tr'
+  cli-localize init --input messages.json --lang 'en>tr'
 
   # Initialize with explicit format and token target
-  xlat init --input strings.xml --format android --lang 'en>es' --target-tokens 3000
+  cli-localize init --input strings.xml --format android --lang 'en>es' --target-tokens 3000
 
   # Get batch for translation
-  xlat batch --session .loc-abc123.json --batch 1 > batch_1_input.ibf
+  cli-localize batch --session .loc-abc123.json --batch 1 > batch_1_input.ibf
 
   # Submit translation
-  xlat submit --session .loc-abc123.json --batch 1 --patch batch_1.ibf
+  cli-localize submit --session .loc-abc123.json --batch 1 --patch batch_1.ibf
 
   # Check status
-  xlat status --session .loc-abc123.json
+  cli-localize status --session .loc-abc123.json
 
   # Finalize
-  xlat finalize --session .loc-abc123.json
+  cli-localize finalize --session .loc-abc123.json
 
   # List supported formats
-  xlat formats
+  cli-localize formats
 
 IBF Patch File Format (.ibf):
   #TRANSLATED:v1:batch=1/10:count=10:status=ok

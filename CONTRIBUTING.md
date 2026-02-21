@@ -1,11 +1,11 @@
-# Contributing to xlat
+# Contributing to cli-localize
 
 ## Development Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/yigitkonur/xlat.git
-cd xlat
+git clone https://github.com/yigitkonur/cli-localize.git
+cd cli-localize
 
 # Install with dev dependencies using uv
 uv sync --extra dev

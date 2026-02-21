@@ -13,21 +13,7 @@ Run: python test_ibf_bugs.py
 import sys
 import os
 
-# Direct import of ibf_format module to avoid importing other dependencies
-sys.path.insert(0, '/Users/yigitkonur/dev/my-cli-apps/srt-translator/xlat')
-
-# Import directly from ibf_format.py
-import importlib.util
-spec = importlib.util.spec_from_file_location(
-    "ibf_format",
-    "/Users/yigitkonur/dev/my-cli-apps/srt-translator/xlat/ibf_format.py"
-)
-ibf_format = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(ibf_format)
-
-IBFEncoder = ibf_format.IBFEncoder
-IBFDecoder = ibf_format.IBFDecoder
-IBFEntry = ibf_format.IBFEntry
+from xlat.ibf_format import IBFEncoder, IBFDecoder, IBFEntry
 
 
 def test_empty_string_entry():

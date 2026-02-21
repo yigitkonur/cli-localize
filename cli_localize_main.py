@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Entry point for xlat CLI binary.
+Entry point for cli-localize CLI binary.
 This module is used by PyInstaller to create the standalone executable.
 """
 

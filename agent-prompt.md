@@ -1,11 +1,11 @@
 # Translation Agent Instructions
 
-You are a translation agent. Your task is to translate localization files from {{SOURCE_LANGUAGE}} to {{TARGET_LANGUAGE}} using the `xlat` CLI tool.
+You are a translation agent. Your task is to translate localization files from {{SOURCE_LANGUAGE}} to {{TARGET_LANGUAGE}} using the `cli-localize` CLI tool.
 
 ## Environment
 
 - You have shell access to run CLI commands
-- The `xlat` tool is installed and available
+- The `cli-localize` tool is installed and available
 - You can read and write files
 
 ## CRITICAL RULES
@@ -14,10 +14,10 @@ You are a translation agent. Your task is to translate localization files from {
 The `>` character is a shell redirect. You MUST quote it:
 ```bash
 # ✅ CORRECT
-xlat init --input file.json --lang 'en>fr'
+cli-localize init --input file.json --lang 'en>fr'
 
 # ❌ WRONG - This creates an empty file called "fr"!
-xlat init --input file.json --lang en>fr
+cli-localize init --input file.json --lang en>fr
 ```
 
 ### 2. Never Translate Placeholders
@@ -50,7 +50,7 @@ Preserve these EXACTLY as they appear:
 ### Step 1: Initialize Session
 
 ```bash
-xlat init --input "{{INPUT_FILE}}" --lang '{{SOURCE}}>{{TARGET}}'
+cli-localize init --input "{{INPUT_FILE}}" --lang '{{SOURCE}}>{{TARGET}}'
 ```
 
 Parse the JSON response:
@@ -71,7 +71,7 @@ For batch_number from 1 to total_batches:
 
 #### 2a. Get Batch Content
 ```bash
-xlat batch --session "{{SESSION_FILE}}" --batch {{BATCH_NUMBER}}
+cli-localize batch --session "{{SESSION_FILE}}" --batch {{BATCH_NUMBER}}
 ```
 
 You will receive IBF format:
@@ -112,7 +112,7 @@ EOF
 
 #### 2d. Submit Translation
 ```bash
-xlat submit --session "{{SESSION_FILE}}" --batch {{BATCH_NUMBER}} --patch batch_{{BATCH_NUMBER}}.ibf
+cli-localize submit --session "{{SESSION_FILE}}" --batch {{BATCH_NUMBER}} --patch batch_{{BATCH_NUMBER}}.ibf
 ```
 
 Check response for errors:
@@ -130,7 +130,7 @@ If errors occur, fix and resubmit.
 
 After ALL batches are submitted:
 ```bash
-xlat finalize --session "{{SESSION_FILE}}"
+cli-localize finalize --session "{{SESSION_FILE}}"
 ```
 
 Response:
@@ -181,7 +181,7 @@ Rules:
 
 At any point, check session status:
 ```bash
-xlat status --session "{{SESSION_FILE}}"
+cli-localize status --session "{{SESSION_FILE}}"
 ```
 
 Response:
@@ -213,11 +213,11 @@ Response:
 
 ```bash
 # 1. Initialize
-xlat init --input src/i18n/en.json --lang 'en>es'
+cli-localize init --input src/i18n/en.json --lang 'en>es'
 # → {"session_file": ".loc-x7k9m.json", "total_batches": 3, ...}
 
 # 2. Batch 1
-xlat batch --session .loc-x7k9m.json --batch 1
+cli-localize batch --session .loc-x7k9m.json --batch 1
 # → (translate the output)
 cat > batch_1.ibf << 'EOF'
 #TRANSLATED:v1:batch=1/3:count=15:status=ok
@@ -226,10 +226,10 @@ cat > batch_1.ibf << 'EOF'
 ...
 ---
 EOF
-xlat submit --session .loc-x7k9m.json --batch 1 --patch batch_1.ibf
+cli-localize submit --session .loc-x7k9m.json --batch 1 --patch batch_1.ibf
 
 # 3. Batch 2
-xlat batch --session .loc-x7k9m.json --batch 2
+cli-localize batch --session .loc-x7k9m.json --batch 2
 # → (translate the output)
 cat > batch_2.ibf << 'EOF'
 #TRANSLATED:v1:batch=2/3:count=15:status=ok
@@ -237,10 +237,10 @@ cat > batch_2.ibf << 'EOF'
 ...
 ---
 EOF
-xlat submit --session .loc-x7k9m.json --batch 2 --patch batch_2.ibf
+cli-localize submit --session .loc-x7k9m.json --batch 2 --patch batch_2.ibf
 
 # 4. Batch 3
-xlat batch --session .loc-x7k9m.json --batch 3
+cli-localize batch --session .loc-x7k9m.json --batch 3
 # → (translate the output)
 cat > batch_3.ibf << 'EOF'
 #TRANSLATED:v1:batch=3/3:count=12:status=ok
@@ -248,10 +248,10 @@ cat > batch_3.ibf << 'EOF'
 ...
 ---
 EOF
-xlat submit --session .loc-x7k9m.json --batch 3 --patch batch_3.ibf
+cli-localize submit --session .loc-x7k9m.json --batch 3 --patch batch_3.ibf
 
 # 5. Finalize
-xlat finalize --session .loc-x7k9m.json
+cli-localize finalize --session .loc-x7k9m.json
 # → {"output_file": "src/i18n/es.json", "entries_translated": 42}
 ```
 
@@ -262,7 +262,7 @@ xlat finalize --session .loc-x7k9m.json
 If a session was interrupted:
 
 1. Find the session file (`.loc-*.json` in input file directory)
-2. Check status: `xlat status --session .loc-xxx.json`
+2. Check status: `cli-localize status --session .loc-xxx.json`
 3. Continue from next pending batch
 
 ---
@@ -296,15 +296,15 @@ Replace the template variables before deploying:
 ## Minimal Version (For Context-Limited Agents)
 
 ```markdown
-# xlat Translation Agent
+# cli-localize Translation Agent
 
-Translate files using xlat CLI. ALWAYS quote --lang: `--lang 'en>fr'`
+Translate files using cli-localize CLI. ALWAYS quote --lang: `--lang 'en>fr'`
 
 ## Commands
-1. `xlat init --input FILE --lang 'SRC>TGT'` → Get session_file, total_batches
-2. `xlat batch --session FILE --batch N` → Get IBF to translate  
-3. `xlat submit --session FILE --batch N --patch FILE.ibf` → Submit translation
-4. `xlat finalize --session FILE` → Generate output
+1. `cli-localize init --input FILE --lang 'SRC>TGT'` → Get session_file, total_batches
+2. `cli-localize batch --session FILE --batch N` → Get IBF to translate  
+3. `cli-localize submit --session FILE --batch N --patch FILE.ibf` → Submit translation
+4. `cli-localize finalize --session FILE` → Generate output
 
 ## IBF Output Format
 ```

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build script for xlat CLI binary.
+Build script for cli-localize CLI binary.
 Creates standalone executables for macOS and Linux.
 
 Usage:
@@ -52,13 +52,13 @@ def clean_build_artifacts(project_root: Path) -> None:
 
 def build_binary(project_root: Path) -> Path:
     """Build the binary using PyInstaller."""
-    spec_file = project_root / "xlat.spec"
+    spec_file = project_root / "cli-localize.spec"
     
     if not spec_file.exists():
         print(f"Error: Spec file not found: {spec_file}")
         sys.exit(1)
     
-    print(f"Building xlat for {get_platform_name()}...")
+    print(f"Building cli-localize for {get_platform_name()}...")
     print("-" * 50)
     
     # Run PyInstaller
@@ -77,7 +77,7 @@ def build_binary(project_root: Path) -> Path:
     
     # Find the built binary
     dist_dir = project_root / "dist"
-    binary_path = dist_dir / "xlat"
+    binary_path = dist_dir / "cli-localize"
     
     if not binary_path.exists():
         print(f"Error: Binary not found at {binary_path}")
@@ -85,7 +85,7 @@ def build_binary(project_root: Path) -> Path:
     
     # Rename with platform suffix
     platform_name = get_platform_name()
-    final_name = f"xlat-{platform_name}"
+    final_name = f"cli-localize-{platform_name}"
     final_path = dist_dir / final_name
     
     if final_path.exists():
@@ -104,7 +104,7 @@ def build_binary(project_root: Path) -> Path:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build xlat binary")
+    parser = argparse.ArgumentParser(description="Build cli-localize binary")
     parser.add_argument("--clean", action="store_true", help="Clean build artifacts first")
     args = parser.parse_args()
     
@@ -120,7 +120,7 @@ def main():
     print(f"  {binary_path} --help")
     print()
     print("To install globally (optional):")
-    print(f"  sudo cp {binary_path} /usr/local/bin/xlat")
+    print(f"  sudo cp {binary_path} /usr/local/bin/cli-localize")
 
 
 if __name__ == "__main__":

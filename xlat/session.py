@@ -379,12 +379,12 @@ class TranslationSession:
 
         # Build next command
         if next_action == "continue" and batch:
-            next_command = f"xlat batch --session {self.state_file} --batch {batch}"
+            next_command = f"cli-localize batch --session {self.state_file} --batch {batch}"
             next_description = f"Translate batch {batch} of {self.state.total_batches}"
             batch_status = self.state.batches.get(str(batch))
             estimated_tokens = batch_status.estimated_tokens if batch_status else 0
         elif next_action == "finalize":
-            next_command = f"xlat finalize --session {self.state_file}"
+            next_command = f"cli-localize finalize --session {self.state_file}"
             next_description = "Generate final translated file"
             estimated_tokens = 0
         else:
@@ -476,10 +476,10 @@ class TranslationSession:
 
         # Determine next command
         if next_batch:
-            next_command = f"xlat batch --session {self.state_file} --batch {next_batch}"
+            next_command = f"cli-localize batch --session {self.state_file} --batch {next_batch}"
             next_description = f"Translate batch {next_batch} of {self.state.total_batches}"
         else:
-            next_command = f"xlat finalize --session {self.state_file}"
+            next_command = f"cli-localize finalize --session {self.state_file}"
             next_description = "Generate final translated file"
 
         return {
